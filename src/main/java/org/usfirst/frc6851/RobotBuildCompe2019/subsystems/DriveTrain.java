@@ -13,6 +13,7 @@ package org.usfirst.frc6851.RobotBuildCompe2019.subsystems;
 
 
 import org.usfirst.frc6851.RobotBuildCompe2019.commands.*;
+//import org.usfirst.frc6851.robot.utils.MathUtils;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -61,18 +62,18 @@ public class DriveTrain extends Subsystem {
         
         moteurAvantGauche = new Spark(0);
         addChild("MoteurAvantGauche",moteurAvantGauche);
-        moteurAvantGauche.setInverted(true);
+        moteurAvantGauche.setInverted(false); //true
         
         moteurArriereDroit = new Spark(1);
         addChild("MoteurArriereDroit",moteurArriereDroit);
-        moteurArriereDroit.setInverted(true);
+        moteurArriereDroit.setInverted(false); //true
         
         moteurArriereGauche = new Spark(3);
         addChild("MoteurArriereGauche",moteurArriereGauche);
         moteurArriereGauche.setInverted(false);
         
         mecanumDrive = new MecanumDrive(moteurAvantGauche, moteurArriereGauche,
-              moteurAvantDroit, moteurArriereDroit);
+            moteurAvantDroit, moteurArriereDroit);
         addChild("Mecanum Drive",mecanumDrive);
         mecanumDrive.setSafetyEnabled(true);
         mecanumDrive.setExpiration(0.1);
@@ -106,8 +107,11 @@ public class DriveTrain extends Subsystem {
     public void DriveMecanum(Joystick manette){
         
         //mecanumDrive.driveCartesian(manette.getY(), manette.getX(), -manette.getTwist());
-        mecanumDrive.driveCartesian(manette.getY()*manette.getY(), manette.getTwist()*manette.getTwist(),
-                                    -(manette.getX()*manette.getX()));
+        mecanumDrive.driveCartesian(
+            (manette.getX() * manette.getX() * manette.getX()),
+           -(manette.getY()*manette.getY()*manette.getY()),
+            manette.getTwist()*manette.getTwist()*manette.getTwist() 
+        );
         SmartDashboard.putNumber("encodeurMArD", mArD.getRaw());
         SmartDashboard.putNumber("encodeurMArG", mArG.getRaw());
         SmartDashboard.putNumber("encodeurMAvD", mAvD.getRaw());
