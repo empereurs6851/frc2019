@@ -14,6 +14,7 @@ package org.usfirst.frc6851.RobotBuildCompe2019.subsystems;
 
 import org.usfirst.frc6851.RobotBuildCompe2019.commands.*;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -60,11 +61,11 @@ public class DriveTrain extends Subsystem {
         
         moteurAvantGauche = new Spark(0);
         addChild("MoteurAvantGauche",moteurAvantGauche);
-        moteurAvantGauche.setInverted(false);
+        moteurAvantGauche.setInverted(true);
         
         moteurArriereDroit = new Spark(1);
         addChild("MoteurArriereDroit",moteurArriereDroit);
-        moteurArriereDroit.setInverted(false);
+        moteurArriereDroit.setInverted(true);
         
         moteurArriereGauche = new Spark(3);
         addChild("MoteurArriereGauche",moteurArriereGauche);
@@ -103,8 +104,14 @@ public class DriveTrain extends Subsystem {
     }
 //   { } 
     public void DriveMecanum(Joystick manette){
-        double twist = manette.getTwist();
-        mecanumDrive.driveCartesian(manette.getY(), manette.getX(), twist);
+        
+        //mecanumDrive.driveCartesian(manette.getY(), manette.getX(), -manette.getTwist());
+        mecanumDrive.driveCartesian(manette.getY()*manette.getY(), manette.getTwist()*manette.getTwist(),
+                                    -(manette.getX()*manette.getX()));
+        SmartDashboard.putNumber("encodeurMArD", mArD.getRaw());
+        SmartDashboard.putNumber("encodeurMArG", mArG.getRaw());
+        SmartDashboard.putNumber("encodeurMAvD", mAvD.getRaw());
+        SmartDashboard.putNumber("encodeurMAvG", mAvG.getRaw());
     }   
 
     @Override
