@@ -109,9 +109,12 @@ public class DriveTrain extends Subsystem {
         //mecanumDrive.driveCartesian(manette.getY(), manette.getX(), -manette.getTwist());
         mecanumDrive.driveCartesian(
             (manette.getX() * manette.getX() * manette.getX()),
-           -(manette.getY()*manette.getY()*manette.getY()),
-            manette.getTwist()*manette.getTwist()*manette.getTwist() 
+           -(manette.getY() * manette.getY() * manette.getY()),
+            manette.getTwist() * manette.getTwist() * manette.getTwist() 
         );
+
+        mecanumDrive.setMaxOutput(((manette.getRawAxis(3)-1)*-1)/4+0.5); // tentative de lire le Slider
+
         SmartDashboard.putNumber("encodeurMArD", mArD.getRaw());
         SmartDashboard.putNumber("encodeurMArG", mArG.getRaw());
         SmartDashboard.putNumber("encodeurMAvD", mAvD.getRaw());
